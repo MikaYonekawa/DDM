@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'package:api/tarefa.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -17,6 +18,7 @@ class _MyApiState extends State<MyApi> {
   int taskId =  0;
   String title ='';
   bool completed = false;
+  Tarefa minhaTarefa = Tarefa();
 
 Future<void>obterTarefa()async{
   final url = Uri.parse('https://jsonplaceholder.typicode.com/todos/19');
@@ -29,11 +31,8 @@ Future<void>obterTarefa()async{
     //variavel tarefa tem os dados em json
 
     Map<String, dynamic> tarefa =jsonDecode(data);
-    print(tarefa);
-    userId = (tarefa['userId']);
-    taskId = (tarefa['id']);
-    title = (tarefa['title']);
-    completed = (tarefa['completed']);
+
+  minhaTarefa = Tarefa.fromJson(tarefa); 
     setState(() {
       
     });
@@ -52,10 +51,10 @@ Future<void>obterTarefa()async{
         ElevatedButton(onPressed: (){
           obterTarefa();
         }, child: Text('Buscar')),
-        Text('ID usuário: $userId'),
-        Text('ID tarefa: $taskId'),
-        Text('Título: $title'),
-        Text('Status: $completed'),
+        Text('ID usuário: ${minhaTarefa.userId}'),
+        Text('ID tarefa: ${minhaTarefa.taskId}'),
+        Text('Título: ${minhaTarefa.title}'),
+        Text('Status: ${minhaTarefa.completed}'),
       ],),),
     );
   }
